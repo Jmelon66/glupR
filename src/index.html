@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" name="viewport" content="width=device-width">
+		<title>CBOOK</title>
+		<style type="text/css">
+			*{
+				padding: 0;
+				margin: 0;
+			}
+			body{
+				background-color: rgba(150,240,240,0.7);
+			}
+			#book-container{
+				position: relative;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				width: 99vw;
+				min-width: 1200px;
+				min-height: 800px;
+				border: solid 1px;
+			}
+			.book-page{
+				position: absolute;
+				width: 400px;
+				height: 500px;
+				border: solid 2px black;
+				transform: rotateX(15deg);
+				background-color: rgba(253,245,230,1);
+			}
+			.book-page:after{
+			}
+			.book-footer{
+				position: absolute;
+				width: 400px;
+				height: 20px;
+				top: 500px;
+				background-color: black;
+			}
+			.book-footer-left{
+				transform: skewX(-30deg);
+				left: -webkit-calc(-10*1.414px);
+			}
+			#book-front{
+				position: absolute;
+				left:25%;
+				
+			}
+			#book-black{
+				left:calc(25% + 402px);
+				left: -webkit-calc(25% + 402px);
+				left: -moz-calc(25% + 402px);
+			}
+		</style>
+	</head>
+	<body>
+		<div id="book-container">
+			<div id="book-front" class="book-page">
+				55555555555
+				<div class="book-footer book-footer-left"></div>
+			</div>
+			<div id="book-black" class="book-page">
+				<div class="book-footer book-footer-right"></div>
+			</div>
+		</div>
+	</body>
+</html>
