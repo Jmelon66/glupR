@@ -1,0 +1,83 @@
+@Cbackground: rgba(216, 212, 212, 1);
+@Cpaper:rgba(255, 255, 245, 1);
+@font-size:15px;
+*{
+    font-size: @font-size;
+}
+body {
+    background-color: @Cbackground;
+}
+#book-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 99vw;
+    min-width: 1200px;
+    min-height: 800px;
+    border: solid 1px;
+    transform-style: preserve-3d;
+    perspective: 500;
+}
+
+.book-page {
+    position: absolute;
+    width: 400px;
+    height: 500px;
+    border: solid 2px black;
+    transform: rotateX(15deg);
+    background-color:@Cpaper;
+    left: calc(25% + 402px);
+    transform-origin: 0 50%;
+    z-index: 0;
+    border-radius: 30px;
+    
+}
+.book-page-back{
+    top: 0;
+    left: 0;
+    
+}
+.book-footer {
+    position: absolute;
+    width: 400px;
+    height: 50px;
+    top: 460px;
+    border-radius: 50%;
+    background-color: @Cbackground;
+    border-bottom: -5px solid black transparent;
+    border-top: 2px solid black;
+}
+
+.book-footer:after {
+    content: " ";
+    display: inline-block;
+    position: absolute;
+    width: 400px;
+    height: 20px;
+    top: 20px;
+    background-color: @Cbackground;
+}
+
+.2book-footer-left {
+    transform: skewX(-30deg);
+    left: -webkit-calc(-1*1.414px);
+}
+
+#book-front {
+    transform: rotateX(15deg) translateY(1px);
+    animation: turn 2s ease forwards;
+}
+
+#book-black {}
+
+@keyframes turn {
+    from {
+        transform: rotateX(15deg) rotateY(0deg);
+        z-index: 2;
+    }
+    to {
+        transform: rotateX(15deg) rotateY(-180deg);
+        z-index: 1;
+    }
+}
