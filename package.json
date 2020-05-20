@@ -1,0 +1,23 @@
+{
+  "name": "glupr",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jmelon66/glupR.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Jmelon66/glupR/issues"
+  },
+  "homepage": "https://github.com/Jmelon66/glupR#readme",
+  "dependencies": {
+    "gulp": "^4.0.2",
+    "gulp-minify-css": "^1.2.4"
+  }
+}

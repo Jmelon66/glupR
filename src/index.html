@@ -9,7 +9,7 @@
 				margin: 0;
 			}
 			body{
-				background-color: rgba(150,240,240,0.7);
+				background-color: rgba(255,255,255,0.7);
 			}
 			#book-container{
 				position: relative;
@@ -20,6 +20,8 @@
 				min-width: 1200px;
 				min-height: 800px;
 				border: solid 1px;
+				transform-style: preserve-3d;
+				perspective: 500;
 			}
 			.book-page{
 				position: absolute;
@@ -28,29 +30,39 @@
 				border: solid 2px black;
 				transform: rotateX(15deg);
 				background-color: rgba(253,245,230,1);
+				left:calc(25% + 402px);
+				transform-origin: 0 50%;
+				z-index: 0;
+				border-radius: 30px;
 			}
 			.book-page:after{
+			
 			}
 			.book-footer{
 				position: absolute;
 				width: 400px;
 				height: 20px;
-				top: 500px;
-				background-color: black;
+				top: 480px;
+				border-radius: 50%;
+				border: 1px solid black;
 			}
-			.book-footer-left{
+			.2book-footer-left{
 				transform: skewX(-30deg);
-				left: -webkit-calc(-10*1.414px);
+				left: -webkit-calc(-1*1.414px);
 			}
 			#book-front{
-				position: absolute;
-				left:25%;
-				
+			transform:rotateX(15deg) translateY(1px);
+			animation: turn 2s ease forwards;
 			}
 			#book-black{
-				left:calc(25% + 402px);
-				left: -webkit-calc(25% + 402px);
-				left: -moz-calc(25% + 402px);
+			}
+			@keyframes turn{	
+			from{transform: rotateX(15deg) translateY(0px)rotateY(0deg);z-index: 2;}
+			to{transform: rotateX(15deg) translateY(-1px) rotateY(-180deg);z-index: 1;}
+			}
+			-webkit-@keyframes turn{
+			from{transform: rotateX(15deg) translateY(-1px) translateX(0px) rotateY(0deg);}
+			to{transform: rotateX(15deg) translateY(-1px) translateX(-400px) rotateY(-180deg);}
 			}
 		</style>
 	</head>
