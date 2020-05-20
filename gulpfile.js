@@ -1,10 +1,11 @@
 var gulp = require('gulp');
+const { watch }=require('gulp');
 const { jwatch,cwatch,series } = require('gulp');
 const uglify=require('gulp-uglify');
 const minicss=require('gulp-minify-css');
 const Cless=require('gulp-less');
-const Jwatcher=jwatch(['src/js/*.js']);
-const Cwatcher=cwatch(['src/less/*.less']);
+const Jwatcher=watch(['src/js/*.js']);
+const Cwatcher=watch(['src/less/*.less']);
 function js(){
 	return gulp.src('src/js/*.js')
   .pipe(uglify())
@@ -28,5 +29,6 @@ Cwatcher.on('change',function(path,stats){
 });
 exports.builderall=series(js,less,css)
 exports.JSbuilder=js
-exports.CSSbuilder=css
-exports.lessbuilder=less
+exports.CSSbuilder=series(less,css);
+Jwatcher.close()
+Cwatcher.close()
