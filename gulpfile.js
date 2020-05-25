@@ -1,11 +1,9 @@
 var gulp = require('gulp');
-const { watch }=require('gulp');
-const { jwatch,cwatch,series } = require('gulp');
-const uglify=require('gulp-uglify');
-const minicss=require('gulp-minify-css');
-const Cless=require('gulp-less');
-const Jwatcher=watch(['src/js/*.js']);
-const Cwatcher=watch(['src/less/*.less']);
+const watcher =require('gulp-watch'),
+ { jwatch,cwatch,series } = require('gulp'),
+  uglify=require('gulp-uglify'),
+   minicss=require('gulp-minify-css'),
+   Cless=require('gulp-less');
 function js(){
 	return gulp.src('src/js/*.js')
   .pipe(uglify())
@@ -21,14 +19,17 @@ function less(){
   .pipe(Cless())
   .pipe(gulp.dest('src/css'));
 }
-Jwatcher.on('change',function(path,stats){
-	js();
-});
-Cwatcher.on('change',function(path,stats){
-	series(less,css);
-});
+function jwatcher(){
+	gulp.watch('src/js/*.js',{ events:'change'},js);
+}
+function cwatcher(){
+	gulp.watch('src/less/*.less',{ events:'change'},series(less,css));
+}
+
 exports.builderall=series(js,less,css)
 exports.JSbuilder=js
 exports.CSSbuilder=series(less,css);
-Jwatcher.close()
-Cwatcher.close()
+exports.cwatbuild=cwatcher;
+exports.jwatbuild=jwatcher;
+//Jwatcher.close()
+//Cwatcher.close()
