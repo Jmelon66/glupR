@@ -1,12 +1,4 @@
-@Cbackground: rgba(216, 212, 212, 1);
-@Cpaper:rgba(255, 255, 245, 1);
-@font-size:15px;
-*{
-    font-size: @font-size;
-}
-body {
-    background-color: @Cbackground;
-}
+@import "base";
 #book-container {
     position: relative;
     display: flex;
@@ -15,29 +7,40 @@ body {
     width: 99vw;
     min-width: 1200px;
     min-height: 800px;
-    border: solid 1px;
+    border: solid 2px;
     transform-style: preserve-3d;
     perspective: 500;
 }
 
 .book-page {
     position: absolute;
-    width: 400px;
-    height: 500px;
+    width: 600px;
+    height: 800px;
     border: solid 2px black;
-    transform: rotateX(15deg);
+    transform: rotateX(30deg);
     background-color:@Cpaper;
-    left: calc(25% + 402px);
+    left: calc(5% + 602px);
     transform-origin: 0 50%;
-    z-index: 0;
     border-radius: 30px;
-    
 }
-.book-page-back{
+
+.book-page-front{
+    &:extend(.content-centre);
+    &:extend(.book-page);
+    z-index: 0;
+    transform:rotateX(0deg);
     top: 0;
     left: 0;
-    
 }
+.book-page-back{
+    &:extend(.content-centre);
+    &:extend(.book-page);
+    z-index: -1;
+    transform:rotateX(0deg) rotateY(180deg) translateX(-602PX);
+    top: 0;
+    left: 0;
+}
+
 .book-footer {
     position: absolute;
     width: 400px;
@@ -47,37 +50,136 @@ body {
     background-color: @Cbackground;
     border-bottom: -5px solid black transparent;
     border-top: 2px solid black;
+    z-index: 2;
 }
 
 .book-footer:after {
     content: " ";
     display: inline-block;
     position: absolute;
-    width: 400px;
-    height: 20px;
+    width: 605px;
+    height: 30px;
     top: 20px;
     background-color: @Cbackground;
 }
 
-.2book-footer-left {
+.book-footer-left {
     transform: skewX(-30deg);
     left: -webkit-calc(-1*1.414px);
 }
 
 #book-front {
-    transform: rotateX(15deg) translateY(1px);
-    animation: turn 2s ease forwards;
+    z-index: 3;  
+
+}
+.stop-play{
+    animation-play-state: running;
+}
+#nav-ca{
+    position: absolute;
+    display: flex;
+    justify-content: flex-start ;
+    top: 0;
+    width: 600px;
+    height: 50px;
+    left: calc(50% - 250px);
+    z-index: 2;
+}
+#book-black{
+    z-index: -1;
+}
+#nav-ca div{
+    position: absolute;
+    top: 0;
+    display: inline-block;
+    font-size: @fh2;
+    margin-top: 0;
+    margin-right: 120px;
+    border: 2px gray solid;
+    width: 50px;
+    height: 1px;
+    background: radial-gradient(circle,red 60%,yellow,white);
+    -webkit-line-clamp: 0;
+    border-radius: 3px;
+    z-index: 2;
+    transition-duration: 2s;
 }
 
-#book-black {}
+#nav-ca div a{
+    position: absolute;
+    font-size: @fh2;
+    color: rgba(255,255,255,1);
+    text-shadow: 2px 1px 5px black;
+    top: 0;
+    left: 0;
+    text-align: center;
+    width: 50px;
+    height:18px;
+    overflow: hidden;
+    z-index: 1;
+    transition-duration: 2s;
+}
+.extend{
+    cursor: pointer;
+    height: 100px;
+    transition-duration: 2s;
+}
+#nav-ca div:hover{
+    &:extend(.extend);
+    z-index: 0;
 
+}
+#nav-ca div a:hover{
+    &:extend(.extend);
+}
+
+#nav-ca div:before{
+    content: "";
+    position: absolute;
+    width: 60px;
+    height: 15px;
+    bottom: -15px;
+    left: -5px;
+    border: 1px solid black;
+    z-index: 2;
+    background: radial-gradient(white,red,brown);
+}
+#nav-ca div:after{
+    content: "";
+    position: absolute;
+    width: 90px;
+    height: 15px;
+    bottom:  -15px;
+    left: -20px;
+    border: 1px solid black;
+    border-radius: 10px;
+    background: radial-gradient(white,yellow,brown);
+}
 @keyframes turn {
     from {
-        transform: rotateX(15deg) rotateY(0deg);
-        z-index: 2;
+        transform: rotateX(30deg) rotateY(0deg);
     }
     to {
-        transform: rotateX(15deg) rotateY(-180deg);
-        z-index: 1;
+        transform: rotateX(30deg) rotateY(-180deg);
+    }
+}
+@keyframes up-index {
+    from {
+        z-index: 0;
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+        z-index: 2;
+    }
+}
+@keyframes low-index {
+    from {
+        z-index: 2;
+        opacity: 1;
+    }
+    to {
+        z-index: 0;
+        opacity: 0;
     }
 }

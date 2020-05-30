@@ -1,26 +1,165 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
+
 		<meta charset="UTF-8" name="viewport" content="width=device-width">
 		<title>CBOOK</title>
 		<style type="text/css">
-			*{
+			* {
 				padding: 0;
 				margin: 0;
 			}
-
 		</style>
-		<link rel="stylesheet" type="text/css" href="../dist/css/book.css"/>
+		<link rel="stylesheet" type="text/css" href="../dist/css/book.css" />
+		<link rel="stylesheet" type="text/css" href="../dist/css/cube.css" />
+
+		<script src="../dist/js/jquery-3.4.1.min.js"></script>
+		<script src="https://cdn.staticfile.org/vue/2.2.2/vue.min.js"></script>
+		<script src="https://cdn.staticfile.org/angular.js/1.4.6/angular.min.js"></script>
 	</head>
+
 	<body>
+		<nav id="nav-ca">
+			<template v-for="(value, key, index) in object">
+				<div v-bind:style="{left:base * index + '%'}" @click="turnpage(index)">
+					<a href="" onclick="return false">{{value}}</a>
+				</div>
+			</template>
+		</nav>
+	
 		<div id="book-container">
-			<div id="book-front" class="book-page">
-				<div class="book-page book-page-back"></div>
-				<div class="book-footer book-footer-left"></div>
+			<div id="book-front" class="book-page" style="z-index: 1;">
+				<div class="book-page-front">
+					<h1>GAME</h1></div>
+				<div class="book-page-back">扫雷</div>
+			</div>
+			<div class="book-page" v-for="value in object">
+				<div class="book-page-front">
+					<h1>{{value.front}}</h1></div>
+				<div class="book-page-back">{{value.back}}</div>
 			</div>
 			<div id="book-black" class="book-page">
-				<div class="book-footer book-footer-right"></div>
 			</div>
 		</div>
 	</body>
+	<script>
+		var book = {
+					sao: {
+						front: "sao",
+						back: "sao1"
+					},
+					lei: {
+						front: "ping",
+						back: "ping7"
+					},
+					pao: {
+						front: "pao",
+						back: "pao7"
+					}
+				},
+				kna = {
+					1: "扫",
+					2: "拼",
+					3: "跑"
+				},
+				l = 3,
+				knav = {},
+				base = Math.floor(100 / l),
+				t = 0,
+				page = 0;
+			$('#nav-ca').width(l * 200 + 'px');
+			$('#nav-ca').css('left', 'calc(50% - ' + l * 100 + 'px)');
+			new Vue({
+				el: '#book-container',
+				data: {
+					object: book
+				}
+
+			}
+			);
+			new Vue({
+						el: '#nav-ca',
+						data: {
+							object: kna,
+							base: base
+						},
+						methods: {
+							turnpage: function(nextp) {
+								
+								turnpage(nextp+1);
+							}}
+						});
+
+		function turnpage(nextp) {
+//			console.log(nextp+" : "+page)
+			var num=0,count=(nextp-page)*0.5,temp,count2;
+						if(page<nextp){
+							for(page;page<nextp;page++){
+								temp=$('#book-container .book-page').eq(page);
+								temp.css("animation","");
+								var la=(count+0.5-(nextp-page)*0.5)*1000
+								var cu=$('#book-container .book-page').eq(page-1);
+								changeindex(cu, page-1, la)
+								var nx=$('#book-container .book-page').eq(page+1);
+								changeindex(nx, page+1, la)
+								temp.css({"z-index":5});
+								temp.animate({"z-index":page}, la);
+								temp.css("animation","turn 1s normal forwards 1");
+								
+								temp=$('#book-container .book-page').eq(page).find('.book-page-front');
+								temp.css("animation","");
+								temp.css("animation","low-index 0.5s normal forwards 1");
+								
+								temp=$('#book-container .book-page').eq(page).find('.book-page-back');
+								temp.css("animation","");
+								temp.css("animation","up-index 0.5s normal forward 1");
+							}
+						}
+						else{
+							page--;
+							count=(page-nextp)*2;
+							for(page;page>nextp-1;page--){
+								count2=(page-nextp)*2
+								var la=count-count2
+								console.log(page)
+								temp=$('#book-container .book-page').eq(page);
+								temp.css("animation","");
+								var cu=$('#book-container .book-page').eq(page-1);
+								changeindex(cu, 0, la*100)
+								temp.css({"z-index":5});
+								temp.animate({"z-index":page},la);
+								var ne=$('#book-container .book-page').eq(page+1)
+								changeindex(ne,0, la*100)
+								
+								delayanimation(temp,"turn 0.5s "+la+"s reverse forwards 1")
+								
+								temp=$('#book-container .book-page').eq(page).find('.book-page-front');
+								delayanimation(temp,"low-index 0.1s  "+ la + "s reverse forwards 1")
+								
+								temp=$('#book-container .book-page').eq(page).find('.book-page-back');
+								delayanimation(temp,"up-index 0.1s "+ la + "s reverse forwards 1 ")
+							}
+						}
+						page=nextp
+					}
+		function delayanimation(element,option){
+			console.log(option)
+			element.css('animation','')
+			element.css('animation',option)
+		}
+		function addtext(id, data) {
+			new Vue({
+				el: id,
+				data: data
+			})
+		}
+		function changeindex(element, index, delay){
+			if(delay==null){
+			   delay=0
+			}
+			element.delay(delay).animate({"z-index": index})
+		}
+	</script>
+
 </html>

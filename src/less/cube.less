@@ -1,0 +1,94 @@
+@import "base";
+@cubec:rgba(255,0,0,0.5),rgba(0,255,0,0.5),rgba(0,0,255,0.5),rgba(253,153,235,0.5),rgba(255,141,0,0.5),rgba(255,224,0,0.5);
+@NUM:0;
+//每两个数值为一个面的基点坐标
+@norigin:0,0,100%,50%,0,0,0,50%,50%,0,50%,100%;
+//每三个数值为一个面的旋转角度，对应X,Y,Z
+@nrotate:0,0,0,0,90deg,0,0,0,0,0,-90deg,0,90deg,180deg,0,-90deg,0,0;
+//每三个数值为一个面的位移距离，对应X,Y,Z
+@ntranslate:0,0,150px,0,0,-150px,0,0,-150px,0,0,-150px,0,0,-150px,0,0,-150px;
+.cube{
+    &:extend(.content-centre);
+    position: absolute;
+    font-size: @font-size;
+    width: 50px;
+    height: 50px;
+    perspective: 300;
+    top:45%;
+    left:45%;
+    transform-style: preserve-3d; 
+    transform-origin: 50% 50% 50%;
+    animation: roll 3s alternate-reverse infinite;
+}
+
+.recen{
+    position: absolute;
+    font-size: @font-size*3;
+    line-height: 300px;
+    text-align: center;
+    width: 300px;
+    height: 300px;
+}
+
+.loop(@i) when (@i < length(@cubec)+1){
+    @x: ((@i - 1 )*3+1);
+    @y: ((@i - 1 )*3+2);
+    @z: ((@i - 1 )*3+3);
+    @x1: ((@i - 1 )*2+1);
+    @y1: ((@i - 1 )*2+2);
+      .cube div:nth-child(@{i}){
+        &:extend(.recen);
+//      background:extract(@cubec,@i);
+        background:transparent;
+        border: 1px solid black;
+        transform-origin:extract(@norigin,@x1) extract(@norigin,@y1);
+        transform: translate3d(extract(@ntranslate,@x),extract(@ntranslate,@y)
+        ,extract(@ntranslate,@z)) rotateX(extract(@nrotate,@x)) rotateY(extract(@nrotate,@y)) 
+        rotateZ(extract(@nrotate,@z));
+    }
+    .loop(@i+1);
+}
+.loop(1);
+ .cube:hover{
+    animation-play-state: paused;
+    transition-duration:2s;
+}
+
+@keyframes roll{
+    0%{
+        transform: rotateX(30deg) rotateY(10deg) rotateZ(0deg);
+        z-index: 1;
+        }
+    15%{
+        transform: rotateX(30deg) rotateY(-30deg) rotateZ(0deg);
+        z-index: 2;
+        }
+    30%{
+        transform: rotateX(30deg) rotateY(90deg) rotateZ(10deg);
+        z-index: 3;
+        }
+    45%{
+        transform: rotateX(30deg) rotateY(180deg) rotateZ(10deg);
+        z-index: 4;
+        }
+    60%{
+        transform: rotateX(30deg) rotateY(270deg) rotateZ(15deg);
+        z-index: 5;
+        }
+    75%{
+        transform: rotateX(-90deg) rotateY(10deg) rotateZ(15deg);
+        z-index: 6;
+    }
+    100%{
+        transform: rotateX(0deg) rotateY(5deg) rotateZ(0deg);
+        z-index: 1;
+        }
+}
+@keyframes rollend{
+    0%{
+        transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+    }
+    100%{
+        transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg);
+        }
+}
